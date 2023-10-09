@@ -14,8 +14,9 @@ class Forward_kinematics():
 		self.joint_angles = []
 		#Through modified DH parameter,
 		self.alpha = [0, -pi/2, 0, 0]
-		self.a = [0, 0, 0.128, 0.148]
+		self.a = [0, 0, 0.130, 0.124]
 		self.d = [0.077, 0, 0, 0]
+		self.initial_theta = np.array([0.0, -np.deg2rad(79), np.deg2rad(79), 0.0])
 		#End effector position vector respect to 4 frame.
 		self.a_n = np.array([0.126, 0, 0, 1])
 		
@@ -24,10 +25,12 @@ class Forward_kinematics():
 
 		
 	def callback(self,msg):
-		self.joint_angles = [msg.data[0], msg.data[1] -pi/2, msg.data[2] +pi/2, msg.data[3]]
+		self.joint_angles = np.array([msg.data[0], msg.data[1], msg.data[2], msg.data[3]])
+		#Adding initial theta condition
+		self.joint_angles += self.initial_theta
 		self.end_effector_pos = KinematicsPose()
 		end_pos = self.End_effector()
-		self.end_effector_pos.pose.position.x = end_pos[0]
+		self.end_effector_pos.pose.position.x = end_pos[0] + 0.012 #frame 0 and 1 is 0.012 amount shift in x-axis.
 		self.end_effector_pos.pose.position.y = end_pos[1]
 		self.end_effector_pos.pose.position.z = end_pos[2]
 		self.pub.publish(self.end_effector_pos)
