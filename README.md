@@ -12,7 +12,20 @@ The Forward and inverse kinematic code of openManipulator-x robot arms.
 ## ROS Package Installation
 
 ```
-$: cd ~/catkin_ws/src
+cd ~/catkin_ws/src
+
+# retrieve the sources
+git clone -b noetic https://github.com/amitkr000/open_manipulator_kinematics.git
+
+cd ~/catkin_ws
+
+# building the package
+catkin_make
+
+# activate this workspace
+source ~/catkin_ws/devel/setup.bash
+
+Note: If your workspace's name differs, replace the "catkin_ws" with your workspace name.
 ```
 
 ***
